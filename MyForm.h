@@ -43,8 +43,6 @@ namespace groupOrg {
 			}
 		}
 	private: System::Windows::Forms::Panel^ mainWindow_header;
-	protected:
-
 
 					// zmienne globalne do łączenia z bazą danych
 	private: String^ constring = L"datasource=localhost;port=3306;username=root;password=;";
@@ -56,9 +54,9 @@ namespace groupOrg {
 	private: System::Windows::Forms::FlowLayoutPanel^ panel2;
 
 			 // zmienne globalne do przechowywania nazw grup
-	//private: Dictionary <int, Panel^> gNames = gcnew Dictionary<int, Panel^>();
 	private: List<String^>^ groupID = gcnew List<String^>();
 	private: List<String^>^ groupNames = gcnew List<String^>();
+	private: System::Windows::Forms::Button^ button1;
 
 	protected:
 
@@ -76,6 +74,7 @@ namespace groupOrg {
 		void InitializeComponent(void)
 		{
 			this->mainWindow_header = (gcnew System::Windows::Forms::Panel());
+			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->main_btnCreate = (gcnew System::Windows::Forms::Button());
 			this->mainWindow_headerLable = (gcnew System::Windows::Forms::Label());
 			this->panel2 = (gcnew System::Windows::Forms::FlowLayoutPanel());
@@ -86,6 +85,7 @@ namespace groupOrg {
 			// 
 			this->mainWindow_header->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(108)),
 				static_cast<System::Int32>(static_cast<System::Byte>(105)), static_cast<System::Int32>(static_cast<System::Byte>(113)));
+			this->mainWindow_header->Controls->Add(this->button1);
 			this->mainWindow_header->Controls->Add(this->main_btnCreate);
 			this->mainWindow_header->Controls->Add(this->mainWindow_headerLable);
 			this->mainWindow_header->Dock = System::Windows::Forms::DockStyle::Top;
@@ -94,13 +94,26 @@ namespace groupOrg {
 			this->mainWindow_header->Size = System::Drawing::Size(982, 100);
 			this->mainWindow_header->TabIndex = 0;
 			// 
+			// button1
+			// 
+			this->button1->Cursor = System::Windows::Forms::Cursors::Hand;
+			this->button1->FlatAppearance->BorderSize = 0;
+			this->button1->Font = (gcnew System::Drawing::Font(L"Elephant", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->button1->Location = System::Drawing::Point(220, 32);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(201, 36);
+			this->button1->TabIndex = 2;
+			this->button1->Text = L"Wszystkie użytkowniki";
+			this->button1->UseVisualStyleBackColor = true;
+			// 
 			// main_btnCreate
 			// 
 			this->main_btnCreate->Cursor = System::Windows::Forms::Cursors::Hand;
 			this->main_btnCreate->FlatAppearance->BorderSize = 0;
 			this->main_btnCreate->Font = (gcnew System::Drawing::Font(L"Elephant", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->main_btnCreate->Location = System::Drawing::Point(88, 33);
+			this->main_btnCreate->Location = System::Drawing::Point(12, 32);
 			this->main_btnCreate->Name = L"main_btnCreate";
 			this->main_btnCreate->Size = System::Drawing::Size(175, 36);
 			this->main_btnCreate->TabIndex = 1;
@@ -113,7 +126,7 @@ namespace groupOrg {
 			this->mainWindow_headerLable->AutoSize = true;
 			this->mainWindow_headerLable->Font = (gcnew System::Drawing::Font(L"Elephant", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->mainWindow_headerLable->Location = System::Drawing::Point(400, 18);
+			this->mainWindow_headerLable->Location = System::Drawing::Point(515, 16);
 			this->mainWindow_headerLable->Name = L"mainWindow_headerLable";
 			this->mainWindow_headerLable->Size = System::Drawing::Size(366, 51);
 			this->mainWindow_headerLable->TabIndex = 0;
@@ -148,8 +161,101 @@ namespace groupOrg {
 		}
 #pragma endregion
 
-//											Функції створенні мною
+
+
+							// Функції створенні системою
 // -----------------------------------------------------------------------------------------------------------------------------------------
+		   
+	
+	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
+		
+		conDatabase->Open();
+		updateGroupsWindow();
+
+	}
+
+
+	private: System::Void openGroup_Click(System::Object^ sender, System::EventArgs^ e) {
+		//String^ groupNameToDelete = dynamic_cast<Button^>(sender)->Name->ToString();
+		
+		
+		String^ groupNameToDelete = dynamic_cast<Button^>(sender)->Name->ToString();
+		String^ groupIDToDelete = dynamic_cast<Button^>(sender)->Tag->ToString();
+
+		openGroupWindow(groupNameToDelete, groupIDToDelete);
+	}
+
+
+
+	private: System::Void removeGroup_Click(System::Object^ sender, System::EventArgs^ e) {
+		
+		String^ groupIDToDelete = dynamic_cast<Button^>(sender)->Tag->ToString();
+
+		String^ deleteCmd = "DELETE FROM groupOrg.groups WHERE id = @value";
+		MySqlCommand^ cmdDelete = gcnew MySqlCommand(deleteCmd, conDatabase);
+		cmdDelete->Parameters->AddWithValue("@value", groupIDToDelete);
+
+		try
+		{
+			conDatabase->Open();
+			cmdDelete->ExecuteNonQuery();
+			updateGroupsWindow();
+			
+			
+			
+		}
+		catch (Exception^ ex)
+		{
+			MessageBox::Show(ex->Message);
+		}
+		finally
+		{
+			conDatabase->Close();
+		}
+		
+	}
+
+	private: System::Void main_btnCreate_Click(System::Object^ sender, System::EventArgs^ e) {
+		
+		
+		CreationForm^ creationForm = gcnew CreationForm();
+		if (creationForm->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
+			
+			String^ groupName = creationForm->GroupName;
+			if (groupName->Length != 0) {
+				//wysłanie zapytania do bazy danych
+
+				String^ insertQuery = "INSERT INTO grouporg.groups (id, groupName) VALUES (NULL, @value2)";
+				MySqlCommand^ cmdInsert = gcnew MySqlCommand(insertQuery, conDatabase);
+				cmdInsert->Parameters->AddWithValue("@value2", groupName);
+
+				try {
+					conDatabase->Open();
+					cmdInsert->ExecuteNonQuery();
+					/*MessageBox::Show("Grupa stworzona!");*/
+					updateGroupsWindow();
+								
+					//Application::Restart();
+					
+
+				}
+				catch (Exception^ ex) {
+					MessageBox::Show(ex->Message);
+				}
+				finally {
+					conDatabase->Close();
+				}
+			}
+			else {
+				MessageBox::Show("Nie wpisales nazwy grupy!");
+				
+			}
+			
+		}	
+	}
+
+		   //											Функції створенні мною
+	   // -----------------------------------------------------------------------------------------------------------------------------------------
 	private: void updateGroupsWindow()
 	{
 		try {
@@ -192,13 +298,13 @@ namespace groupOrg {
 				//Edit button
 				//Button groupEdit_btn
 				Button^ editGroup = gcnew Button();
-				editGroup->Name = L"editGroup";
-				editGroup->Text = L"Edytuj Grupę";
+				editGroup->Name = groupNames[i];
+				editGroup->Text = L"Wejdź w grupę";
 				editGroup->Size = System::Drawing::Size(117, 20);
 				editGroup->FlatStyle = FlatStyle::System;
 				editGroup->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 				editGroup->Dock = System::Windows::Forms::DockStyle::Left;
-				editGroup->Tag = groupNames[i];
+				editGroup->Tag = groupID[i];
 				editGroup->Click += gcnew System::EventHandler(this, &MyForm::openGroup_Click);
 
 
@@ -237,102 +343,15 @@ namespace groupOrg {
 
 	}
 
-							// Функції створенні системою
-// -----------------------------------------------------------------------------------------------------------------------------------------
-		   
 	
-	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
-		
-		conDatabase->Open();
-		updateGroupsWindow();
-
-	}
-
-
-	private: System::Void openGroup_Click(System::Object^ sender, System::EventArgs^ e) {
-		String^ groupNameToDelete = dynamic_cast<Button^>(sender)->Name->ToString();
-		String^ groupIDToDelete = dynamic_cast<Button^>(sender)->Tag->ToString();
-	
-		openGroupWindow(groupNameToDelete, groupIDToDelete);
-	}
-
-
-
-	private: System::Void removeGroup_Click(System::Object^ sender, System::EventArgs^ e) {
-		
-		String^ groupIDToDelete = dynamic_cast<Button^>(sender)->Tag->ToString();
-		String^ deleteCmd = "DELETE FROM groupOrg.groups WHERE id = @value";
-		MySqlCommand^ cmdDelete = gcnew MySqlCommand(deleteCmd, conDatabase);
-		cmdDelete->Parameters->AddWithValue("@value", groupIDToDelete);
-
-		try
-		{
-			conDatabase->Open();
-			cmdDelete->ExecuteNonQuery();
-			updateGroupsWindow();
-			
-			
-			
-		}
-		catch (Exception^ ex)
-		{
-			MessageBox::Show(ex->Message);
-		}
-		finally
-		{
-			conDatabase->Close();
-		}
-		
-	}
-
-	private: System::Void main_btnCreate_Click(System::Object^ sender, System::EventArgs^ e) {
-		
-		
-		CreationForm^ creationForm = gcnew CreationForm();
-		if (creationForm->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
-			
-			String^ groupName = creationForm->GroupName;
-			if (groupName->Length != 0) {
-				//wysłanie zapytania do bazy danych
-
-				String^ insertQuery = "INSERT INTO grouporg.groups (id, groupName) VALUES (NULL, @value2)";
-				MySqlCommand^ cmdInsert = gcnew MySqlCommand(insertQuery, conDatabase);
-				cmdInsert->Parameters->AddWithValue("@value2", groupName);
-
-				try {
-					conDatabase->Open();
-					cmdInsert->ExecuteNonQuery();
-					MessageBox::Show("Grupa stworzona!");
-					updateGroupsWindow();
-								
-					//Application::Restart();
-					
-
-				}
-				catch (Exception^ ex) {
-					MessageBox::Show(ex->Message);
-				}
-				finally {
-					conDatabase->Close();
-				}
-			}
-			else {
-				MessageBox::Show("Nie wpisales nazwy grupy!");
-				
-			}
-			
-		}	
-	}
 	private: System::Void openGroupWindow(String^ cur_groupName, String^ cur_groupID)
 	{
-		
 		/*GroupWindow^ groupWindowForm = gcnew GroupWindow();
 		groupWindowForm->ShowDialog();*/
-
-		this->Hide();
-		groupOrg::GroupWindow^ groupWindowForm = gcnew GroupWindow(cur_groupName, cur_groupID);
-		groupWindowForm->ShowDialog();
 		
+		this->Hide();
+		groupOrg::GroupWindow^ groupWindowForm = gcnew GroupWindow(this, cur_groupName, cur_groupID);
+		groupWindowForm->ShowDialog();
 		
 	}
 

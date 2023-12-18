@@ -1,3 +1,4 @@
+  groupOrg.AddUserToGroupForm.resources - Embedded, ContainedInManifestFile, 
   groupOrg.CreationForm.resources - Embedded, ContainedInManifestFile, 
   groupOrg.groupWindow.resources - Embedded, ContainedInManifestFile, 
   groupOrg.MyForm.resources - Embedded, ContainedInManifestFile, 
@@ -18,6 +19,9 @@ Assembly System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=
 	hash=None, flags=None
 Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
 	hash=None, flags=None
+Class groupOrg.AddUserToGroupForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(System.Windows.Forms.Form, System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class groupOrg.CreationForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
@@ -27,7 +31,7 @@ Class groupOrg.CreationForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldIn
     get_GroupName(): PrivateScope, Public, HideBySig, SpecialName
 Class groupOrg.GroupWindow: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
-    Void .ctor(System.String, System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.Windows.Forms.Form, System.String, System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class groupOrg.MyForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName

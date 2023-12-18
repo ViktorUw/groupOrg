@@ -124,11 +124,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AddUserToGroupForm.cpp" />
     <ClCompile Include="CreationForm.cpp" />
     <ClCompile Include="GroupWindow.cpp" />
     <ClCompile Include="MyForm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AddUserToGroupForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="CreationForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -141,6 +145,9 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AddUserToGroupForm.resx">
+      <DependentUpon>AddUserToGroupForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CreationForm.resx">
       <DependentUpon>CreationForm.h</DependentUpon>
     </EmbeddedResource>

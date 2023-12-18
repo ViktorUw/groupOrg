@@ -1,5 +1,6 @@
-﻿  GroupWindow.cpp
-  MyForm.cpp
-  Создание кода...
-  CreationForm.obj : обнаружен модуль MSIL; для MSIL последовательная компоновка отключена; выполняется полная компоновка
+﻿  MyForm.cpp
+D:\MyProjects\groupOrg(good)\AddUserToGroupForm.h(698,20): warning C4566: символ, представленный универсальным именем символа "\u0142", невозможно представить в текущей кодовой странице (1251)
+  (компиляция исходного файла "MyForm.cpp")
+  
+  AddUserToGroupForm.obj : обнаружен модуль MSIL; для MSIL последовательная компоновка отключена; выполняется полная компоновка
   groupOrg.vcxproj -> D:\MyProjects\groupOrg(good)\x64\Debug\groupOrg.exe

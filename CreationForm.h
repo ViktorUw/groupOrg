@@ -30,7 +30,7 @@ namespace groupOrg {
 			//
 			//TODO: добавьте код конструктора
 			//
-			
+			this->StartPosition = FormStartPosition::CenterScreen;
 		}
 
 	protected:
