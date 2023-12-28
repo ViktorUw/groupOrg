@@ -39,3 +39,4 @@ D:\MyProjects\groupOrg(good)\x64\Debug\System.Numerics.Vectors.dll
 D:\MyProjects\groupOrg(good)\x64\Debug\System.Buffers.dll
 D:\MyProjects\groupOrg(good)\x64\Debug\MySql.Data.xml
 D:\MyProjects\groupOrg(good)\x64\Debug\groupOrg.AddUserToGroupForm.resources
+D:\MyProjects\groupOrg(good)\x64\Debug\groupOrg.CurentMemberInfo.resources

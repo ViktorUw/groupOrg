@@ -30,6 +30,8 @@ namespace groupOrg {
 			//TODO: добавьте код конструктора
 			//
 			this->StartPosition = FormStartPosition::CenterScreen;
+			this->addUserToGroup_addUser->DialogResult = System::Windows::Forms::DialogResult::None;
+			
 			
 			
 		}
@@ -694,8 +696,8 @@ private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e
 private: System::Void main_btnCreate_Click(System::Object^ sender, System::EventArgs^ e) {
 	if (addUserForm_TextBoxForName->Text->Length == 0 || addUserForm_TextBoxForSecondName->Text->Length == 0 || addUserForm_TextBoxForMail->Text->Length == 0 || addUserForm_TextBoxForBirthDate->Text->Length == 0 || addUserForm_TextBoxForPhoneNumber->Text->Length == 0 || (!addUserForm_radioButtonMan->Checked && !addUserForm_radioButtonWoman->Checked)) 
 	{
-		addUserToGroup_addUser->DialogResult = System::Windows::Forms::DialogResult::None;
-		MessageBox::Show("Wypełnij wszystkie pola!");
+		
+		MessageBox::Show("Wypelnij wszystkie pola!");
 	}
 	else {
 		
@@ -713,6 +715,7 @@ private: System::Void main_btnCreate_Click(System::Object^ sender, System::Event
 
 		if (addUserForm_radioButtonMan->Checked)
 		{
+			
 			user_gender = "Mezczyzna";
 		}
 		else if (addUserForm_radioButtonWoman->Checked)
@@ -742,17 +745,16 @@ private: System::Void main_btnCreate_Click(System::Object^ sender, System::Event
 		{
 			conDatabase->Open();
 			cmdInsert->ExecuteNonQuery();
-			
 			//MessageBox::Show("Użytkownik został dodany do grupy!");
-			
-			
+			addUserToGroup_addUser->DialogResult = System::Windows::Forms::DialogResult::OK;
+			addUserToGroup_addUser->PerformClick();
 			
 			
 
 
 		}
 		catch (Exception^ ex) {
-			MessageBox::Show(ex->Message);
+			//MessageBox::Show(ex->Message);
 		}
 		finally
 		{

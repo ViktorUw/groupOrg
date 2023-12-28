@@ -1,6 +1,11 @@
-﻿  MyForm.cpp
-D:\MyProjects\groupOrg(good)\AddUserToGroupForm.h(698,20): warning C4566: символ, представленный универсальным именем символа "\u0142", невозможно представить в текущей кодовой странице (1251)
+﻿  GroupWindow.cpp
+D:\MyProjects\groupOrg(good)\AddUserToGroupForm.h(756,21): warning C4101: ex: неиспользованная локальная переменная
+  (компиляция исходного файла "GroupWindow.cpp")
+  
+  MyForm.cpp
+D:\MyProjects\groupOrg(good)\AddUserToGroupForm.h(756,21): warning C4101: ex: неиспользованная локальная переменная
   (компиляция исходного файла "MyForm.cpp")
   
+  Создание кода...
   AddUserToGroupForm.obj : обнаружен модуль MSIL; для MSIL последовательная компоновка отключена; выполняется полная компоновка
   groupOrg.vcxproj -> D:\MyProjects\groupOrg(good)\x64\Debug\groupOrg.exe

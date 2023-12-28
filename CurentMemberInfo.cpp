@@ -1,0 +1,2 @@
+#include "CurentMemberInfo.h"
+

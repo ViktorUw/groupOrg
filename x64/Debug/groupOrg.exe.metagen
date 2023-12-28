@@ -1,5 +1,6 @@
   groupOrg.AddUserToGroupForm.resources - Embedded, ContainedInManifestFile, 
   groupOrg.CreationForm.resources - Embedded, ContainedInManifestFile, 
+  groupOrg.CurentMemberInfo.resources - Embedded, ContainedInManifestFile, 
   groupOrg.groupWindow.resources - Embedded, ContainedInManifestFile, 
   groupOrg.MyForm.resources - Embedded, ContainedInManifestFile, 
 ImageRuntimeVersion: v4.0.30319
@@ -29,6 +30,9 @@ Class groupOrg.CreationForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldIn
     System.String GroupName 'get ' : 
   Methods:
     get_GroupName(): PrivateScope, Public, HideBySig, SpecialName
+Class groupOrg.CurentMemberInfo: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(System.Windows.Forms.Form, System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class groupOrg.GroupWindow: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(System.Windows.Forms.Form, System.String, System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
