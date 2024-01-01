@@ -56,7 +56,8 @@ namespace groupOrg {
 			 // zmienne globalne do przechowywania nazw grup
 	private: List<String^>^ groupID = gcnew List<String^>();
 	private: List<String^>^ groupNames = gcnew List<String^>();
-	private: System::Windows::Forms::Button^ button1;
+
+
 
 	protected:
 
@@ -74,7 +75,6 @@ namespace groupOrg {
 		void InitializeComponent(void)
 		{
 			this->mainWindow_header = (gcnew System::Windows::Forms::Panel());
-			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->main_btnCreate = (gcnew System::Windows::Forms::Button());
 			this->mainWindow_headerLable = (gcnew System::Windows::Forms::Label());
 			this->panel2 = (gcnew System::Windows::Forms::FlowLayoutPanel());
@@ -85,7 +85,6 @@ namespace groupOrg {
 			// 
 			this->mainWindow_header->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(108)),
 				static_cast<System::Int32>(static_cast<System::Byte>(105)), static_cast<System::Int32>(static_cast<System::Byte>(113)));
-			this->mainWindow_header->Controls->Add(this->button1);
 			this->mainWindow_header->Controls->Add(this->main_btnCreate);
 			this->mainWindow_header->Controls->Add(this->mainWindow_headerLable);
 			this->mainWindow_header->Dock = System::Windows::Forms::DockStyle::Top;
@@ -94,26 +93,13 @@ namespace groupOrg {
 			this->mainWindow_header->Size = System::Drawing::Size(982, 100);
 			this->mainWindow_header->TabIndex = 0;
 			// 
-			// button1
-			// 
-			this->button1->Cursor = System::Windows::Forms::Cursors::Hand;
-			this->button1->FlatAppearance->BorderSize = 0;
-			this->button1->Font = (gcnew System::Drawing::Font(L"Elephant", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->button1->Location = System::Drawing::Point(220, 32);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(201, 36);
-			this->button1->TabIndex = 2;
-			this->button1->Text = L"Wszystkie użytkowniki";
-			this->button1->UseVisualStyleBackColor = true;
-			// 
 			// main_btnCreate
 			// 
 			this->main_btnCreate->Cursor = System::Windows::Forms::Cursors::Hand;
 			this->main_btnCreate->FlatAppearance->BorderSize = 0;
 			this->main_btnCreate->Font = (gcnew System::Drawing::Font(L"Elephant", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->main_btnCreate->Location = System::Drawing::Point(12, 32);
+			this->main_btnCreate->Location = System::Drawing::Point(97, 32);
 			this->main_btnCreate->Name = L"main_btnCreate";
 			this->main_btnCreate->Size = System::Drawing::Size(175, 36);
 			this->main_btnCreate->TabIndex = 1;
@@ -126,7 +112,7 @@ namespace groupOrg {
 			this->mainWindow_headerLable->AutoSize = true;
 			this->mainWindow_headerLable->Font = (gcnew System::Drawing::Font(L"Elephant", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->mainWindow_headerLable->Location = System::Drawing::Point(515, 16);
+			this->mainWindow_headerLable->Location = System::Drawing::Point(470, 16);
 			this->mainWindow_headerLable->Name = L"mainWindow_headerLable";
 			this->mainWindow_headerLable->Size = System::Drawing::Size(366, 51);
 			this->mainWindow_headerLable->TabIndex = 0;
@@ -386,4 +372,14 @@ CREATE TABLE Group_Members(
 	FOREIGN KEY (ID_group) REFERENCES Groups(id),
 	FOREIGN KEY (ID_member) REFERENCES members(MemberID)
 );
+*/
+
+
+
+
+// Eventy: Okno(Nazwa eventu oraz data stworzenia eventu)
+/*
+* При натиску Івенти відкриється вікно зі всіма івентами і в кожному івенті будле розділенні обовязки (ід_івенту - ід_ужитковніка)
+* редагування обовязків: 
+* 
 */

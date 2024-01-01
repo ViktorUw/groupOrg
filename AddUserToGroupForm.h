@@ -30,6 +30,8 @@ namespace groupOrg {
 			//TODO: добавьте код конструктора
 			//
 			this->StartPosition = FormStartPosition::CenterScreen;
+			this->addUserToGroup_addUser->DialogResult = System::Windows::Forms::DialogResult::None;
+			
 			
 			
 		}
@@ -298,7 +300,7 @@ namespace groupOrg {
 			this->addUserToGroup_Cancel->FlatAppearance->BorderSize = 0;
 			this->addUserToGroup_Cancel->Font = (gcnew System::Drawing::Font(L"Elephant", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->addUserToGroup_Cancel->Location = System::Drawing::Point(297, 3);
+			this->addUserToGroup_Cancel->Location = System::Drawing::Point(41, 5);
 			this->addUserToGroup_Cancel->Name = L"addUserToGroup_Cancel";
 			this->addUserToGroup_Cancel->Size = System::Drawing::Size(175, 36);
 			this->addUserToGroup_Cancel->TabIndex = 10;
@@ -313,7 +315,7 @@ namespace groupOrg {
 			this->addUserToGroup_addUser->FlatAppearance->BorderSize = 0;
 			this->addUserToGroup_addUser->Font = (gcnew System::Drawing::Font(L"Elephant", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->addUserToGroup_addUser->Location = System::Drawing::Point(41, 3);
+			this->addUserToGroup_addUser->Location = System::Drawing::Point(297, 5);
 			this->addUserToGroup_addUser->Name = L"addUserToGroup_addUser";
 			this->addUserToGroup_addUser->Size = System::Drawing::Size(175, 36);
 			this->addUserToGroup_addUser->TabIndex = 9;
@@ -643,6 +645,7 @@ namespace groupOrg {
 			this->ClientSize = System::Drawing::Size(833, 637);
 			this->Controls->Add(this->panel7);
 			this->Controls->Add(this->addUserForm_Label);
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
 			this->Name = L"AddUserToGroupForm";
 			this->Text = L"AddUserToGroupForm";
 			this->addUserForm_panelForName->ResumeLayout(false);
@@ -694,8 +697,8 @@ private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e
 private: System::Void main_btnCreate_Click(System::Object^ sender, System::EventArgs^ e) {
 	if (addUserForm_TextBoxForName->Text->Length == 0 || addUserForm_TextBoxForSecondName->Text->Length == 0 || addUserForm_TextBoxForMail->Text->Length == 0 || addUserForm_TextBoxForBirthDate->Text->Length == 0 || addUserForm_TextBoxForPhoneNumber->Text->Length == 0 || (!addUserForm_radioButtonMan->Checked && !addUserForm_radioButtonWoman->Checked)) 
 	{
-		addUserToGroup_addUser->DialogResult = System::Windows::Forms::DialogResult::None;
-		MessageBox::Show("Wypełnij wszystkie pola!");
+		
+		MessageBox::Show("Wypelnij wszystkie pola!");
 	}
 	else {
 		
@@ -713,6 +716,7 @@ private: System::Void main_btnCreate_Click(System::Object^ sender, System::Event
 
 		if (addUserForm_radioButtonMan->Checked)
 		{
+			
 			user_gender = "Mezczyzna";
 		}
 		else if (addUserForm_radioButtonWoman->Checked)
@@ -742,17 +746,16 @@ private: System::Void main_btnCreate_Click(System::Object^ sender, System::Event
 		{
 			conDatabase->Open();
 			cmdInsert->ExecuteNonQuery();
-			
 			//MessageBox::Show("Użytkownik został dodany do grupy!");
-			
-			
+			addUserToGroup_addUser->DialogResult = System::Windows::Forms::DialogResult::OK;
+			addUserToGroup_addUser->PerformClick();
 			
 			
 
 
 		}
 		catch (Exception^ ex) {
-			MessageBox::Show(ex->Message);
+			//MessageBox::Show(ex->Message);
 		}
 		finally
 		{

@@ -1,5 +1,6 @@
-﻿
+﻿#include "EventsWindow.h"
 #include "AddUserToGroupForm.h"
+#include "CurentMemberInfo.h"
 
 #pragma once
 
@@ -53,6 +54,7 @@ namespace groupOrg {
 
 	private: System::Windows::Forms::Button^ groupWindow_headerBackToListBtn;
 	private: List<String^>^ membersList = gcnew List<String^>();
+	private: List<String^>^ membersIDList = gcnew List<String^>();
 
 	private: System::Windows::Forms::Panel^ GroupWindow_panelForGroups;
 	private: String^ GroupID;
@@ -62,12 +64,7 @@ namespace groupOrg {
 	private: System::Windows::Forms::Panel^ panel1;
 	private: System::Windows::Forms::Panel^ panel2;
 	private: System::Windows::Forms::Label^ label1;
-
-
-
-
-
-
+	private: System::Windows::Forms::Button^ groupWindow_eventsBtn;
 
 
 	private:
@@ -89,9 +86,11 @@ namespace groupOrg {
 			this->GroupWindow_headerLabel = (gcnew System::Windows::Forms::Label());
 			this->GroupWindow_panelForGroups = (gcnew System::Windows::Forms::Panel());
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
+			this->groupWindow_eventsBtn = (gcnew System::Windows::Forms::Button());
 			this->panel2 = (gcnew System::Windows::Forms::Panel());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->GroupWindow_header->SuspendLayout();
+			this->panel1->SuspendLayout();
 			this->panel2->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -142,7 +141,7 @@ namespace groupOrg {
 			this->GroupWindow_headerLabel->AutoSize = true;
 			this->GroupWindow_headerLabel->Font = (gcnew System::Drawing::Font(L"Elephant", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->GroupWindow_headerLabel->Location = System::Drawing::Point(559, 24);
+			this->GroupWindow_headerLabel->Location = System::Drawing::Point(598, 24);
 			this->GroupWindow_headerLabel->Name = L"GroupWindow_headerLabel";
 			this->GroupWindow_headerLabel->Size = System::Drawing::Size(280, 51);
 			this->GroupWindow_headerLabel->TabIndex = 1;
@@ -159,11 +158,22 @@ namespace groupOrg {
 			// panel1
 			// 
 			this->panel1->BackColor = System::Drawing::SystemColors::ActiveBorder;
+			this->panel1->Controls->Add(this->groupWindow_eventsBtn);
 			this->panel1->Dock = System::Windows::Forms::DockStyle::Right;
 			this->panel1->Location = System::Drawing::Point(816, 100);
 			this->panel1->Name = L"panel1";
 			this->panel1->Size = System::Drawing::Size(166, 653);
 			this->panel1->TabIndex = 5;
+			// 
+			// groupWindow_eventsBtn
+			// 
+			this->groupWindow_eventsBtn->Location = System::Drawing::Point(19, 29);
+			this->groupWindow_eventsBtn->Name = L"groupWindow_eventsBtn";
+			this->groupWindow_eventsBtn->Size = System::Drawing::Size(135, 63);
+			this->groupWindow_eventsBtn->TabIndex = 0;
+			this->groupWindow_eventsBtn->Text = L"Eventy";
+			this->groupWindow_eventsBtn->UseVisualStyleBackColor = true;
+			this->groupWindow_eventsBtn->Click += gcnew System::EventHandler(this, &GroupWindow::groupWindow_eventsBtn_Click);
 			// 
 			// panel2
 			// 
@@ -199,6 +209,7 @@ namespace groupOrg {
 			this->Shown += gcnew System::EventHandler(this, &GroupWindow::GroupWindow_Shown);
 			this->GroupWindow_header->ResumeLayout(false);
 			this->GroupWindow_header->PerformLayout();
+			this->panel1->ResumeLayout(false);
 			this->panel2->ResumeLayout(false);
 			this->panel2->PerformLayout();
 			this->ResumeLayout(false);
@@ -219,75 +230,156 @@ namespace groupOrg {
 		updateMembersOfGroup();
 				
 	}
-private: System::Void groupWindow_headerAddUserBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void groupWindow_headerAddUserBtn_Click(System::Object^ sender, System::EventArgs^ e) {
 	
-	AddUserToGroupForm^ groupWindowAddUser = gcnew AddUserToGroupForm(this, GroupID);
-	groupWindowAddUser->ShowDialog();
-	if (groupWindowAddUser->DialogResult == System::Windows::Forms::DialogResult::OK)
-	{
-		GroupWindow_panelForGroups->Controls->Clear();
-		
-		updateMembersOfGroup();
-	}
-}
-
-private: void updateMembersOfGroup()
-{
-	try
-	{
-		conDatabase->Open();
-		membersList->Clear();
-
-
-		MySqlCommand^ cmd = gcnew MySqlCommand("SELECT * FROM grouporg.`members` WHERE members.`GroupID` = @value", conDatabase);
-		cmd->Parameters->AddWithValue("@value", GroupID);
-
-
-		MySqlDataReader^ reader = cmd->ExecuteReader();
-		while (reader->Read())
-		{
-			 String^ MemberName = reader->GetString(2);
-			 String^ MemberSecondName = reader->GetString(3);
-			 String^ memberInit = MemberName + " " + MemberSecondName;
-			 membersList->Add(memberInit);
-
+		AddUserToGroupForm^ groupWindowAddUser = gcnew AddUserToGroupForm(this, GroupID);
+		groupWindowAddUser->ShowDialog();
+		if (groupWindowAddUser->DialogResult == System::Windows::Forms::DialogResult::OK)
+		{	
+			updateMembersOfGroup();
 		}
+	}
 
-		for (int i = 0; i < membersList->Count; i++)
+	private: void updateMembersOfGroup()
+	{
+		/*GroupWindow_headerLabel->Text = GroupID;*/
+		GroupWindow_panelForGroups->Controls->Clear();
+		try
 		{
-			 Panel^ groupWindow_panelForGroups_panel = gcnew Panel();
-			 groupWindow_panelForGroups_panel->Dock = System::Windows::Forms::DockStyle::Top;
-			 groupWindow_panelForGroups_panel->Location = System::Drawing::Point(0, 30);
-			 groupWindow_panelForGroups_panel->Name = L"groupWindow_panelForGroups_panel";
-			 groupWindow_panelForGroups_panel->Size = System::Drawing::Size(982, 30);
-			 groupWindow_panelForGroups_panel->TabIndex = 0;
-			 groupWindow_panelForGroups_panel->Cursor = System::Windows::Forms::Cursors::Hand;
+			conDatabase->Open();
+			membersList->Clear();
+			membersIDList->Clear();
 
 
+			MySqlCommand^ cmd = gcnew MySqlCommand("SELECT * FROM grouporg.`members` WHERE members.`GroupID` = @value", conDatabase);
+			cmd->Parameters->AddWithValue("@value", GroupID);
 
-			Label^ groupWindow_panelForGroups_panel_label = gcnew Label();
-			groupWindow_panelForGroups_panel_label->AutoSize = true;
-			groupWindow_panelForGroups_panel_label->Font = (gcnew System::Drawing::Font(L"Bell MT", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-					   static_cast<System::Byte>(0)));
-			groupWindow_panelForGroups_panel_label->Location = System::Drawing::Point(3, 4);
-			groupWindow_panelForGroups_panel_label->Name = L"groupWindow_panelForGroups_panel_label";
-			groupWindow_panelForGroups_panel_label->Size = System::Drawing::Size(159, 23);
-			groupWindow_panelForGroups_panel_label->TabIndex = 2;
-			groupWindow_panelForGroups_panel_label->Text = membersList[i];
 
-			groupWindow_panelForGroups_panel->Controls->Add(groupWindow_panelForGroups_panel_label);
-			GroupWindow_panelForGroups->Controls->Add(groupWindow_panelForGroups_panel);
-
+			MySqlDataReader^ reader = cmd->ExecuteReader();
+			while (reader->Read())
+			{
+				 String^ MemberID = reader->GetString(0);
+				 String^ MemberName = reader->GetString(2);
+				 String^ MemberSecondName = reader->GetString(3);
+				 String^ memberInit = MemberName + " " + MemberSecondName;
+				 membersIDList->Add(MemberID);
+				 membersList->Add(memberInit);
 
 			}
+
+			for (int i = 0; i < membersList->Count; i++)
+			{
+				 
+				 Panel^ groupWindow_panelForGroups_panel = gcnew Panel();
+				 groupWindow_panelForGroups_panel->Dock = System::Windows::Forms::DockStyle::Top;
+				 groupWindow_panelForGroups_panel->Location = System::Drawing::Point(0, 30);
+				 groupWindow_panelForGroups_panel->Name = L"groupWindow_panelForGroups_panel";
+				 groupWindow_panelForGroups_panel->Size = System::Drawing::Size(982, 30);
+				 groupWindow_panelForGroups_panel->TabIndex = 0;
+				 //groupWindow_panelForGroups_panel->Cursor = System::Windows::Forms::Cursors::Hand;
+
+				 Panel^ groupWindow_panel_forBtn = gcnew Panel();
+				 groupWindow_panel_forBtn->Dock = System::Windows::Forms::DockStyle::Right;
+
+				 groupWindow_panel_forBtn->Size = System::Drawing::Size(155, 30);
+				 groupWindow_panel_forBtn->Name = L"groupWindow_panel_forBtn";
+
+				 Button^ groupWindow_deleteUserBtn = gcnew Button();
+				 groupWindow_deleteUserBtn->Text = "Usun";
+				 groupWindow_deleteUserBtn->Dock = System::Windows::Forms::DockStyle::Right;
+				 groupWindow_deleteUserBtn->Name = L"groupWindow_deleteUserBtn";
+				 groupWindow_deleteUserBtn->Tag = membersIDList[i];
+				 groupWindow_deleteUserBtn->Click += gcnew System::EventHandler(this, &GroupWindow::groupWindow_deleteUserBtn_Click);
+
+				 Button^ groupWindow_infoUserBtn = gcnew Button();
+				 groupWindow_infoUserBtn->Text = "Informacja";
+				 groupWindow_infoUserBtn->Dock = System::Windows::Forms::DockStyle::Left;		
+				 groupWindow_infoUserBtn->Name = L"groupWindow_infoUserBtn";
+				 groupWindow_infoUserBtn->Tag = membersIDList[i];
+				 groupWindow_infoUserBtn->Click += gcnew System::EventHandler(this, &GroupWindow::groupWindow_infoUserBtn_Click);
+				 
+
+
+
+				 Label^ groupWindow_panelForGroups_panel_label = gcnew Label();
+				 groupWindow_panelForGroups_panel_label->AutoSize = true;
+				 groupWindow_panelForGroups_panel_label->Font = (gcnew System::Drawing::Font(L"Bell MT", 12,  System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			 			   static_cast<System::Byte>(0)));
+				 groupWindow_panelForGroups_panel_label->Location = System::Drawing::Point(3, 4);
+				 groupWindow_panelForGroups_panel_label->Name = L"groupWindow_panelForGroups_panel_label";
+				 groupWindow_panelForGroups_panel_label->Size = System::Drawing::Size(159, 23);
+				 groupWindow_panelForGroups_panel_label->TabIndex = 2;
+				 groupWindow_panelForGroups_panel_label->Text = membersList[i];
+
+				 groupWindow_panel_forBtn->Controls->Add(groupWindow_deleteUserBtn);
+				 groupWindow_panel_forBtn->Controls->Add(groupWindow_infoUserBtn);
+			 
+				 groupWindow_panelForGroups_panel->Controls->Add(groupWindow_panel_forBtn);
+				 groupWindow_panelForGroups_panel->Controls->Add(groupWindow_panelForGroups_panel_label);
+			 
+				 GroupWindow_panelForGroups->Controls->Add(groupWindow_panelForGroups_panel);
+			
+
+
+				}
+		}
+		catch (Exception^ ex) {
+			MessageBox::Show(ex->Message);
+		}
+		finally
+		{
+			conDatabase->Close();
+		}
 	}
-	catch (Exception^ ex) {
-		MessageBox::Show(ex->Message);
+
+	private: System::Void groupWindow_deleteUserBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		String^ userID = safe_cast<Button^>(sender)->Tag->ToString();
+		deleteUser(userID);
+		updateMembersOfGroup();
+		
 	}
-	finally
+	private: System::Void groupWindow_infoUserBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		String^ userID = safe_cast<Button^>(sender)->Tag->ToString();
+		CurentMemberInfo^ curentMemberInfo = gcnew CurentMemberInfo(this, userID);
+		curentMemberInfo->ShowDialog();
+
+		if(curentMemberInfo->DialogResult == System::Windows::Forms::DialogResult::OK)
+		{
+			updateMembersOfGroup();
+		}
+		
+	}
+
+
+	private: void deleteUser(String^ userID)
 	{
-		conDatabase->Close();
-    }
+	try
+		{
+		
+			conDatabase->Open();
+			MySqlCommand^ cmd = gcnew MySqlCommand("DELETE FROM grouporg.`members` WHERE members.`MemberID` = @value", conDatabase);
+			cmd->Parameters->AddWithValue("@value", userID);
+			cmd->ExecuteNonQuery();
+		}
+		catch (Exception^ ex) {
+			MessageBox::Show(ex->Message);
+		}
+		finally
+		{
+			conDatabase->Close();
+		}
+		
+	}
+
+private: System::Void groupWindow_eventsBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+	EventsWindow^ eventsWindow = gcnew EventsWindow(this, GroupID);
+	this->Hide();
+	eventsWindow->ShowDialog();
 }
 };
 }
+
+
+
+
+//// 
