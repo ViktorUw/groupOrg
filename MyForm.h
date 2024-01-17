@@ -26,9 +26,7 @@ namespace groupOrg {
 		MyForm(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: добавьте код конструктора
-			//
+			
 		}
 
 	protected:
@@ -177,13 +175,20 @@ namespace groupOrg {
 		
 		String^ groupIDToDelete = dynamic_cast<Button^>(sender)->Tag->ToString();
 
-		String^ deleteCmd = "DELETE FROM groupOrg.groups WHERE id = @value";
+		String^ deleteCmd2 = "DELETE FROM groupOrg.events WHERE id_group =" + groupIDToDelete;
+		String^ deleteCmd = "DELETE FROM groupOrg.groups WHERE id = " + groupIDToDelete;
+
+		/*
+		DELETE FROM `groups`, `events` FROM groups INNER JOIN `events` ON groups.id = events.id_event WHERE id = 294;
+		*/
+		MySqlCommand^ cmdDelete_event = gcnew MySqlCommand(deleteCmd2, conDatabase);
 		MySqlCommand^ cmdDelete = gcnew MySqlCommand(deleteCmd, conDatabase);
-		cmdDelete->Parameters->AddWithValue("@value", groupIDToDelete);
+		//cmdDelete->Parameters->AddWithValue("@value", groupIDToDelete);
 
 		try
 		{
 			conDatabase->Open();
+			cmdDelete_event->ExecuteNonQuery();
 			cmdDelete->ExecuteNonQuery();
 			updateGroupsWindow();
 			

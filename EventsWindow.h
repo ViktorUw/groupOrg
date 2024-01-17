@@ -1,4 +1,5 @@
 ﻿#include "CreateEventWindow.h"
+#include "CurrentEventWindow.h"
 #pragma once
 
 namespace groupOrg {
@@ -20,13 +21,12 @@ namespace groupOrg {
 	public:
 		EventsWindow(Form^ okno, String^ GroupID)
 		{
+			InitializeComponent();
+
 			this->StartPosition = FormStartPosition::CenterScreen;
 			this->okno = okno;
 			this->GroupID = GroupID;
-			InitializeComponent();
-			//
-			//TODO: добавьте код конструктора
-			//
+			
 		}
 
 	protected:
@@ -246,6 +246,8 @@ namespace groupOrg {
 				//this->main_btnCreate->TextAlign = System::Drawing::ContentAlignment::BottomCenter;
 				enterEventBtn->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 				enterEventBtn->Tag = reader->GetString(0);
+				enterEventBtn->Click += gcnew System::EventHandler(this, &EventsWindow::enterEventBtn_Click);
+
 
 				Button^ deleteEventBtn = gcnew Button();
 				deleteEventBtn->Dock = System::Windows::Forms::DockStyle::Right;
@@ -313,8 +315,16 @@ namespace groupOrg {
 		{
 			conDatabase->Close();
 		}
+
 		eventsWindow_panelForEvents->Controls->Clear();
 		updateEventsWindow();
+	}
+	private: System::Void enterEventBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		String^ eventNameToEnter = dynamic_cast<Button^>(sender)->Parent->Parent->Controls[0]->Text->Substring(13);
+		String^ eventIDToEnter = dynamic_cast<Button^>(sender)->Tag->ToString();
+		CurrentEventWindow^ curEventWindow = gcnew CurrentEventWindow(this, GroupID, eventNameToEnter, eventIDToEnter);
+		this->Hide();
+		curEventWindow->ShowDialog();
 	}
 };
 }

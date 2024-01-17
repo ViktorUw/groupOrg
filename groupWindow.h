@@ -1,6 +1,7 @@
 ﻿#include "EventsWindow.h"
 #include "AddUserToGroupForm.h"
 #include "CurentMemberInfo.h"
+#include "CollectWindow.h"
 
 #pragma once
 
@@ -25,11 +26,9 @@ namespace groupOrg {
 	public:
 		GroupWindow(Form^ okno2, String^ cur_groupName, String^ cur_groupID)
 		{
-			this->okno2 = okno2;
 			InitializeComponent();
-			//
-			//TODO: добавьте код конструктора
-			//
+
+			this->okno2 = okno2;
 			GroupID = cur_groupID;
 			this->GroupWindow_headerLabel->Text = cur_groupName; // groupName
 			this->StartPosition = FormStartPosition::CenterScreen;
@@ -65,6 +64,7 @@ namespace groupOrg {
 	private: System::Windows::Forms::Panel^ panel2;
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Button^ groupWindow_eventsBtn;
+	private: System::Windows::Forms::Button^ groupWindow_collectBtn;
 
 
 	private:
@@ -86,6 +86,7 @@ namespace groupOrg {
 			this->GroupWindow_headerLabel = (gcnew System::Windows::Forms::Label());
 			this->GroupWindow_panelForGroups = (gcnew System::Windows::Forms::Panel());
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
+			this->groupWindow_collectBtn = (gcnew System::Windows::Forms::Button());
 			this->groupWindow_eventsBtn = (gcnew System::Windows::Forms::Button());
 			this->panel2 = (gcnew System::Windows::Forms::Panel());
 			this->label1 = (gcnew System::Windows::Forms::Label());
@@ -158,6 +159,7 @@ namespace groupOrg {
 			// panel1
 			// 
 			this->panel1->BackColor = System::Drawing::SystemColors::ActiveBorder;
+			this->panel1->Controls->Add(this->groupWindow_collectBtn);
 			this->panel1->Controls->Add(this->groupWindow_eventsBtn);
 			this->panel1->Dock = System::Windows::Forms::DockStyle::Right;
 			this->panel1->Location = System::Drawing::Point(816, 100);
@@ -165,9 +167,19 @@ namespace groupOrg {
 			this->panel1->Size = System::Drawing::Size(166, 653);
 			this->panel1->TabIndex = 5;
 			// 
+			// groupWindow_collectBtn
+			// 
+			this->groupWindow_collectBtn->Location = System::Drawing::Point(19, 100);
+			this->groupWindow_collectBtn->Name = L"groupWindow_collectBtn";
+			this->groupWindow_collectBtn->Size = System::Drawing::Size(135, 63);
+			this->groupWindow_collectBtn->TabIndex = 1;
+			this->groupWindow_collectBtn->Text = L"Zrzutka";
+			this->groupWindow_collectBtn->UseVisualStyleBackColor = true;
+			this->groupWindow_collectBtn->Click += gcnew System::EventHandler(this, &GroupWindow::groupWindow_collectBtn_Click);
+			// 
 			// groupWindow_eventsBtn
 			// 
-			this->groupWindow_eventsBtn->Location = System::Drawing::Point(19, 29);
+			this->groupWindow_eventsBtn->Location = System::Drawing::Point(19, 21);
 			this->groupWindow_eventsBtn->Name = L"groupWindow_eventsBtn";
 			this->groupWindow_eventsBtn->Size = System::Drawing::Size(135, 63);
 			this->groupWindow_eventsBtn->TabIndex = 0;
@@ -353,7 +365,7 @@ namespace groupOrg {
 
 	private: void deleteUser(String^ userID)
 	{
-	try
+		try
 		{
 		
 			conDatabase->Open();
@@ -375,6 +387,11 @@ private: System::Void groupWindow_eventsBtn_Click(System::Object^ sender, System
 	EventsWindow^ eventsWindow = gcnew EventsWindow(this, GroupID);
 	this->Hide();
 	eventsWindow->ShowDialog();
+}
+private: System::Void groupWindow_collectBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+	CollectWindow^ collectWindow = gcnew CollectWindow(this, GroupID);
+	this->Hide();
+	collectWindow->ShowDialog();
 }
 };
 }

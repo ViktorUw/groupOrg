@@ -19,13 +19,9 @@ namespace groupOrg {
 	public:
 		CreateEventWindow(Form^ okno, String^ GroupID)
 		{
-			
-			this->StartPosition = FormStartPosition::CenterScreen;
-
 			InitializeComponent();
-			//
-			//TODO: добавьте код конструктора
-			//
+
+			this->StartPosition = FormStartPosition::CenterScreen;
 			this->groupID = GroupID;
 		}
 
@@ -216,3 +212,9 @@ namespace groupOrg {
 	}
 };
 }
+
+
+
+//TODO: Edycja obowiązków i ich zaznaczanie jako wykonane;
+//TODO: Dodanie textBoxu dla uwag do eventu;
+//TODO: Dodanie możliwości wysłania informacji o obowiązkach do każdej osoby mejlem (wszystko do wszystkich)

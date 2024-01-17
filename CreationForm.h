@@ -27,9 +27,7 @@ namespace groupOrg {
 		CreationForm(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: добавьте код конструктора
-			//
+
 			this->StartPosition = FormStartPosition::CenterScreen;
 		}
 

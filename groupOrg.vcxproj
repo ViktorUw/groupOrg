@@ -124,16 +124,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AddDuty.cpp" />
     <ClCompile Include="AddUserToGroupForm.cpp" />
+    <ClCompile Include="CollectWindow.cpp" />
+    <ClCompile Include="CreateCollection.cpp" />
     <ClCompile Include="CreateEventWindow.cpp" />
     <ClCompile Include="CreationForm.cpp" />
     <ClCompile Include="CurentMemberInfo.cpp" />
+    <ClCompile Include="CurrentEventWindow.cpp" />
+    <ClCompile Include="EditDutyWindow.cpp" />
     <ClCompile Include="EventsWindow.cpp" />
     <ClCompile Include="GroupWindow.cpp" />
     <ClCompile Include="MyForm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AddDuty.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="AddUserToGroupForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="CollectWindow.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="CreateCollection.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="CreateEventWindow.h">
@@ -143,6 +157,12 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="CurentMemberInfo.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="CurrentEventWindow.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="EditDutyWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="EventsWindow.h">
@@ -157,8 +177,17 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AddDuty.resx">
+      <DependentUpon>AddDuty.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddUserToGroupForm.resx">
       <DependentUpon>AddUserToGroupForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CollectWindow.resx">
+      <DependentUpon>CollectWindow.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreateCollection.resx">
+      <DependentUpon>CreateCollection.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CreateEventWindow.resx">
       <DependentUpon>CreateEventWindow.h</DependentUpon>
@@ -168,6 +197,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CurentMemberInfo.resx">
       <DependentUpon>CurentMemberInfo.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CurrentEventWindow.resx">
+      <DependentUpon>CurrentEventWindow.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditDutyWindow.resx">
+      <DependentUpon>EditDutyWindow.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EventsWindow.resx">
       <DependentUpon>EventsWindow.h</DependentUpon>

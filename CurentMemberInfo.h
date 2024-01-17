@@ -27,13 +27,10 @@ namespace groupOrg {
 	public:		
 		CurentMemberInfo(Form^ okno, String^ userID)
 		{
+			InitializeComponent();
+
 			this->okno = okno;
 			this->userID = userID;
-			InitializeComponent();
-			//
-			//TODO: добавьте код конструктора
-			//
-			
 			this->StartPosition = FormStartPosition::CenterScreen;
 			disableTextBoxes(isEdit);
 		}
@@ -290,12 +287,12 @@ namespace groupOrg {
 			this->currentMember_LabelForAddDate->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->currentMember_LabelForAddDate->Font = (gcnew System::Drawing::Font(L"Bell MT", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->currentMember_LabelForAddDate->Location = System::Drawing::Point(51, 5);
+			this->currentMember_LabelForAddDate->Location = System::Drawing::Point(68, 5);
 			this->currentMember_LabelForAddDate->Margin = System::Windows::Forms::Padding(0);
 			this->currentMember_LabelForAddDate->Name = L"currentMember_LabelForAddDate";
-			this->currentMember_LabelForAddDate->Size = System::Drawing::Size(141, 23);
+			this->currentMember_LabelForAddDate->Size = System::Drawing::Size(124, 23);
 			this->currentMember_LabelForAddDate->TabIndex = 3;
-			this->currentMember_LabelForAddDate->Text = L"Data urodzenia:";
+			this->currentMember_LabelForAddDate->Text = L"Data dodania:";
 			this->currentMember_LabelForAddDate->TextAlign = System::Drawing::ContentAlignment::BottomLeft;
 			// 
 			// panel19
@@ -743,8 +740,6 @@ namespace groupOrg {
 
 private: System::Void CurentMemberInfo_Shown(System::Object^ sender, System::EventArgs^ e) {
 	
-
-
 	String^ cmd = "SELECT * FROM groupOrg.`members` WHERE MemberID = " + userID;
 	MySqlCommand^ command = gcnew MySqlCommand(cmd, conDatabase);
 	try

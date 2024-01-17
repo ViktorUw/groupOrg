@@ -22,13 +22,10 @@ namespace groupOrg {
 	public:
 		AddUserToGroupForm(Form^ okno, String^ groupID)
 		{
-			this->GroupID = groupID;
-			this->okno = okno;
 			InitializeComponent();
 
-			//
-			//TODO: добавьте код конструктора
-			//
+			this->GroupID = groupID;
+			this->okno = okno;
 			this->StartPosition = FormStartPosition::CenterScreen;
 			this->addUserToGroup_addUser->DialogResult = System::Windows::Forms::DialogResult::None;
 			
@@ -686,94 +683,88 @@ namespace groupOrg {
 		}
 #pragma endregion
 
-private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 	
-	this->Close();
+		this->Close();
 	
 	
-}
-
-
-private: System::Void main_btnCreate_Click(System::Object^ sender, System::EventArgs^ e) {
-	if (addUserForm_TextBoxForName->Text->Length == 0 || addUserForm_TextBoxForSecondName->Text->Length == 0 || addUserForm_TextBoxForMail->Text->Length == 0 || addUserForm_TextBoxForBirthDate->Text->Length == 0 || addUserForm_TextBoxForPhoneNumber->Text->Length == 0 || (!addUserForm_radioButtonMan->Checked && !addUserForm_radioButtonWoman->Checked)) 
-	{
-		
-		MessageBox::Show("Wypelnij wszystkie pola!");
 	}
-	else {
+
+
+	private: System::Void main_btnCreate_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (addUserForm_TextBoxForName->Text->Length == 0 || addUserForm_TextBoxForSecondName->Text->Length == 0 || addUserForm_TextBoxForMail->Text->Length == 0 || addUserForm_TextBoxForBirthDate->Text->Length == 0 || addUserForm_TextBoxForPhoneNumber->Text->Length == 0 || (!addUserForm_radioButtonMan->Checked && !addUserForm_radioButtonWoman->Checked)) 
+		{
 		
-		String^ user_first_name = addUserForm_TextBoxForName->Text;
-		String^ user_second_name = addUserForm_TextBoxForSecondName->Text;
-		String^ user_mail = addUserForm_TextBoxForMail->Text;
-		String^ user_birth_date = addUserForm_TextBoxForBirthDate->Text;
-		String^ user_phone_number = addUserForm_TextBoxForPhoneNumber->Text;
-		String^ user_gender;
+			MessageBox::Show("Wypelnij wszystkie pola!");
+		}
+		else {
 		
-		//!Dla wyswietlania terazniejszej daty:
-		DateTime^ now = DateTime::Now;
-		String^ user_join_date = now->ToString("yyyy-MM-dd");
+			String^ user_first_name = addUserForm_TextBoxForName->Text;
+			String^ user_second_name = addUserForm_TextBoxForSecondName->Text;
+			String^ user_mail = addUserForm_TextBoxForMail->Text;
+			String^ user_birth_date = addUserForm_TextBoxForBirthDate->Text;
+			String^ user_phone_number = addUserForm_TextBoxForPhoneNumber->Text;
+			String^ user_gender;
+		
+			//!Dla wyswietlania terazniejszej daty:
+			DateTime^ now = DateTime::Now;
+			String^ user_join_date = now->ToString("yyyy-MM-dd");
 		
 
-		if (addUserForm_radioButtonMan->Checked)
-		{
+			if (addUserForm_radioButtonMan->Checked)
+			{
 			
-			user_gender = "Mezczyzna";
-		}
-		else if (addUserForm_radioButtonWoman->Checked)
-		{
-			user_gender = "Kobieta";
-		}
+				user_gender = "Mezczyzna";
+			}
+			else if (addUserForm_radioButtonWoman->Checked)
+			{
+				user_gender = "Kobieta";
+			}
 		
-		//INSERT INTO `members`(`MemberID`, `GroupID`, `FirstName`, `LastName`, `Email`, `BirthDate`, `Gender`, `PhoneNumber`, `JoinDate`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]','[value-9]')
+			//INSERT INTO `members`(`MemberID`, `GroupID`, `FirstName`, `LastName`, `Email`, `BirthDate`, `Gender`, `PhoneNumber`, `JoinDate`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]','[value-9]')
 
-		String^ insertQuery = "INSERT INTO grouporg.`members`(`MemberID`, `GroupID`, `FirstName`, `LastName`, `Email`, `BirthDate`, `Gender`, `PhoneNumber`, `JoinDate`) VALUES ('null',@value1,@value2,@value3,@value4,@value5,@value6,@value7,@value8)";
+			String^ insertQuery = "INSERT INTO grouporg.`members`(`MemberID`, `GroupID`, `FirstName`, `LastName`, `Email`, `BirthDate`, `Gender`, `PhoneNumber`, `JoinDate`) VALUES ('null',@value1,@value2,@value3,@value4,@value5,@value6,@value7,@value8)";
 
-		MySqlCommand^ cmdInsert = gcnew MySqlCommand(insertQuery, conDatabase);
-		cmdInsert->Parameters->AddWithValue("@value1", GroupID); // GroupID
-		cmdInsert->Parameters->AddWithValue("@value2", user_first_name); // FirstName
-		cmdInsert->Parameters->AddWithValue("@value3", user_second_name); // LastName
-		cmdInsert->Parameters->AddWithValue("@value4", user_mail); // Email
-		cmdInsert->Parameters->AddWithValue("@value5", user_birth_date); // BirthDate
-		cmdInsert->Parameters->AddWithValue("@value6", user_gender); // Gender
-		cmdInsert->Parameters->AddWithValue("@value7", user_phone_number); // PhoneNumber
-		cmdInsert->Parameters->AddWithValue("@value8", user_join_date); // JoinDate
+			MySqlCommand^ cmdInsert = gcnew MySqlCommand(insertQuery, conDatabase);
+			cmdInsert->Parameters->AddWithValue("@value1", GroupID); // GroupID
+			cmdInsert->Parameters->AddWithValue("@value2", user_first_name); // FirstName
+			cmdInsert->Parameters->AddWithValue("@value3", user_second_name); // LastName
+			cmdInsert->Parameters->AddWithValue("@value4", user_mail); // Email
+			cmdInsert->Parameters->AddWithValue("@value5", user_birth_date); // BirthDate
+			cmdInsert->Parameters->AddWithValue("@value6", user_gender); // Gender
+			cmdInsert->Parameters->AddWithValue("@value7", user_phone_number); // PhoneNumber
+			cmdInsert->Parameters->AddWithValue("@value8", user_join_date); // JoinDate
 		
-		/*String^ insertQuery = "INSERT INTO grouporg.groups (id, groupName) VALUES (NULL, @value2)";
-				MySqlCommand^ cmdInsert = gcnew MySqlCommand(insertQuery, conDatabase);
-				cmdInsert->Parameters->AddWithValue("@value2", groupName);*/
+			/*String^ insertQuery = "INSERT INTO grouporg.groups (id, groupName) VALUES (NULL, @value2)";
+					MySqlCommand^ cmdInsert = gcnew MySqlCommand(insertQuery, conDatabase);
+					cmdInsert->Parameters->AddWithValue("@value2", groupName);*/
 
-		try
-		{
-			conDatabase->Open();
-			cmdInsert->ExecuteNonQuery();
-			//MessageBox::Show("Użytkownik został dodany do grupy!");
-			addUserToGroup_addUser->DialogResult = System::Windows::Forms::DialogResult::OK;
-			addUserToGroup_addUser->PerformClick();
+			try
+			{
+				conDatabase->Open();
+				cmdInsert->ExecuteNonQuery();
+				//MessageBox::Show("Użytkownik został dodany do grupy!");
+				addUserToGroup_addUser->DialogResult = System::Windows::Forms::DialogResult::OK;
+				addUserToGroup_addUser->PerformClick();
 			
 			
 
 
+			}
+			catch (Exception^ ex) {
+				//MessageBox::Show(ex->Message);
+			}
+			finally
+			{
+				conDatabase->Close();
+			}
 		}
-		catch (Exception^ ex) {
-			//MessageBox::Show(ex->Message);
-		}
-		finally
-		{
-			conDatabase->Close();
-		}
-
-
-
-		
-		
-
 	}
-}
-private: System::Void addUserForm_TextBoxForPhoneNumber_KeyPress(System::Object^ sender, System::Windows::Forms::KeyPressEventArgs^ e) {
-	if (!Char::IsDigit(e->KeyChar) && e->KeyChar != 0x08)
-	{
-		e->Handled = true;
-	}
+	private: System::Void addUserForm_TextBoxForPhoneNumber_KeyPress(System::Object^ sender, System::Windows::Forms::KeyPressEventArgs^ e) {
+		if (!Char::IsDigit(e->KeyChar) && e->KeyChar != 0x08)
+		{
+			e->Handled = true;
+		}
 }
 };
 }
