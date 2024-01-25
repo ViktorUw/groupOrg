@@ -80,6 +80,7 @@ namespace groupOrg {
 		/// </summary>
 		void InitializeComponent()
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(GroupWindow::typeid));
 			this->GroupWindow_header = (gcnew System::Windows::Forms::Panel());
 			this->groupWindow_headerAddUserBtn = (gcnew System::Windows::Forms::Button());
 			this->groupWindow_headerBackToListBtn = (gcnew System::Windows::Forms::Button());
@@ -162,9 +163,9 @@ namespace groupOrg {
 			this->panel1->Controls->Add(this->groupWindow_collectBtn);
 			this->panel1->Controls->Add(this->groupWindow_eventsBtn);
 			this->panel1->Dock = System::Windows::Forms::DockStyle::Right;
-			this->panel1->Location = System::Drawing::Point(816, 100);
+			this->panel1->Location = System::Drawing::Point(822, 100);
 			this->panel1->Name = L"panel1";
-			this->panel1->Size = System::Drawing::Size(166, 653);
+			this->panel1->Size = System::Drawing::Size(160, 653);
 			this->panel1->TabIndex = 5;
 			// 
 			// groupWindow_collectBtn
@@ -175,11 +176,12 @@ namespace groupOrg {
 			this->groupWindow_collectBtn->TabIndex = 1;
 			this->groupWindow_collectBtn->Text = L"Zrzutka";
 			this->groupWindow_collectBtn->UseVisualStyleBackColor = true;
+			this->groupWindow_collectBtn->Visible = false;
 			this->groupWindow_collectBtn->Click += gcnew System::EventHandler(this, &GroupWindow::groupWindow_collectBtn_Click);
 			// 
 			// groupWindow_eventsBtn
 			// 
-			this->groupWindow_eventsBtn->Location = System::Drawing::Point(19, 21);
+			this->groupWindow_eventsBtn->Location = System::Drawing::Point(14, 21);
 			this->groupWindow_eventsBtn->Name = L"groupWindow_eventsBtn";
 			this->groupWindow_eventsBtn->Size = System::Drawing::Size(135, 63);
 			this->groupWindow_eventsBtn->TabIndex = 0;
@@ -193,7 +195,7 @@ namespace groupOrg {
 			this->panel2->Dock = System::Windows::Forms::DockStyle::Top;
 			this->panel2->Location = System::Drawing::Point(0, 100);
 			this->panel2->Name = L"panel2";
-			this->panel2->Size = System::Drawing::Size(816, 33);
+			this->panel2->Size = System::Drawing::Size(822, 33);
 			this->panel2->TabIndex = 6;
 			// 
 			// label1
@@ -216,6 +218,7 @@ namespace groupOrg {
 			this->Controls->Add(this->panel1);
 			this->Controls->Add(this->GroupWindow_panelForGroups);
 			this->Controls->Add(this->GroupWindow_header);
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"GroupWindow";
 			this->Text = L"GroupWindow";
 			this->Shown += gcnew System::EventHandler(this, &GroupWindow::GroupWindow_Shown);

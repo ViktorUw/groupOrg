@@ -84,6 +84,7 @@ namespace groupOrg {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(EditDutyWindow::typeid));
 			this->addDuty_backgroundPanel = (gcnew System::Windows::Forms::Panel());
 			this->editDuty_labelForDutyText = (gcnew System::Windows::Forms::Label());
 			this->editDuty_labelForMemberList = (gcnew System::Windows::Forms::Label());
@@ -203,6 +204,8 @@ namespace groupOrg {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(665, 413);
 			this->Controls->Add(this->addDuty_backgroundPanel);
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"EditDutyWindow";
 			this->Text = L"EditDutyWindow";
 			this->Shown += gcnew System::EventHandler(this, &EditDutyWindow::EditDutyWindow_Shown);
@@ -270,7 +273,7 @@ namespace groupOrg {
 		try {
 			conDatabase->Open();
 			myReader = cmd->ExecuteReader();
-			MessageBox::Show("Obowiazek zostal zmieniony");
+			//MessageBox::Show("Obowiazek zostal zmieniony");
 			this->Close();
 		}
 		catch (Exception^ ex)

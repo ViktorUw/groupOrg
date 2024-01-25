@@ -1,5 +1,6 @@
 ﻿#include "CreateEventWindow.h"
 #include "CurrentEventWindow.h"
+#include "EditEventWindow.h"
 #pragma once
 
 namespace groupOrg {
@@ -74,6 +75,7 @@ namespace groupOrg {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(EventsWindow::typeid));
 			this->eventsWindow_header = (gcnew System::Windows::Forms::Panel());
 			this->eventsWIndow_back_to_group = (gcnew System::Windows::Forms::Button());
 			this->eventsWindow_btnCreateEvent = (gcnew System::Windows::Forms::Button());
@@ -175,6 +177,7 @@ namespace groupOrg {
 			this->Controls->Add(this->panel1);
 			this->Controls->Add(this->eventsWindow_panelForEvents);
 			this->Controls->Add(this->eventsWindow_header);
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"EventsWindow";
 			this->Text = L"EventsWindow";
 			this->Shown += gcnew System::EventHandler(this, &EventsWindow::eventsWindow_shown);
@@ -237,30 +240,44 @@ namespace groupOrg {
 				panelForBtn->Dock = System::Windows::Forms::DockStyle::Bottom;
 				panelForBtn->Size = System::Drawing::Size(240, 30);
 
+				Button^ editEventBtn = gcnew Button();
+				editEventBtn->Dock = System::Windows::Forms::DockStyle::Left;
+				editEventBtn->Size = System::Drawing::Size(70, 30);
+				editEventBtn->FlatStyle = System::Windows::Forms::FlatStyle::System;
+				editEventBtn->BackColor = Color::LightGray;
+				editEventBtn->Text = "Edytuj";
+				editEventBtn->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+				editEventBtn->Tag = reader->GetString(0);
+				editEventBtn->Click += gcnew System::EventHandler(this, &EventsWindow::editEventBtn_Click);
+
+				
+				
 				Button^ enterEventBtn = gcnew Button();
-				enterEventBtn->Dock = System::Windows::Forms::DockStyle::Left;
-				enterEventBtn->Size = System::Drawing::Size(119, 30);
+				enterEventBtn->Dock = System::Windows::Forms::DockStyle::Fill;
+				enterEventBtn->Size = System::Drawing::Size(70, 30);
 				enterEventBtn->FlatStyle = System::Windows::Forms::FlatStyle::System;
 				enterEventBtn->BackColor = Color::LightGray;
-				enterEventBtn->Text = L"Wejdź w wydarzenie";
+				enterEventBtn->Text = L"Wejdź";
 				//this->main_btnCreate->TextAlign = System::Drawing::ContentAlignment::BottomCenter;
 				enterEventBtn->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 				enterEventBtn->Tag = reader->GetString(0);
 				enterEventBtn->Click += gcnew System::EventHandler(this, &EventsWindow::enterEventBtn_Click);
 
+						
 
 				Button^ deleteEventBtn = gcnew Button();
 				deleteEventBtn->Dock = System::Windows::Forms::DockStyle::Right;
-				deleteEventBtn->Size = System::Drawing::Size(119, 30);
+				deleteEventBtn->Size = System::Drawing::Size(70, 25);
 				deleteEventBtn->FlatStyle = System::Windows::Forms::FlatStyle::System;
 				deleteEventBtn->BackColor = Color::LightGray;
-				deleteEventBtn->Text = L"Usuń wydarzenie";
+				deleteEventBtn->Text = L"Usuń";
 				deleteEventBtn->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 				deleteEventBtn->Tag = reader->GetString(0);
 				deleteEventBtn->Click += gcnew System::EventHandler(this, &EventsWindow::deleteEventBtn_Click);
 
 
 				panelForBtn->Controls->Add(enterEventBtn);
+				panelForBtn->Controls->Add(editEventBtn);
 				panelForBtn->Controls->Add(deleteEventBtn);
 
 				panelForEvent->Controls->Add(eventName_label);
@@ -325,6 +342,19 @@ namespace groupOrg {
 		CurrentEventWindow^ curEventWindow = gcnew CurrentEventWindow(this, GroupID, eventNameToEnter, eventIDToEnter);
 		this->Hide();
 		curEventWindow->ShowDialog();
+	}
+
+	private: System::Void editEventBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		String^ eventIDToEdit = dynamic_cast<Button^>(sender)->Tag->ToString();
+		EditEventWindow^ editEventWindow = gcnew EditEventWindow(this, eventIDToEdit);
+		//this->Hide();
+		editEventWindow->ShowDialog();
+		if (editEventWindow->DialogResult == System::Windows::Forms::DialogResult::OK)
+		{
+			eventsWindow_panelForEvents->Controls->Clear();
+			updateEventsWindow();
+		}
+	
 	}
 };
 }

@@ -66,6 +66,7 @@ namespace groupOrg {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(CreationForm::typeid));
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
 			this->create_btnCancel = (gcnew System::Windows::Forms::Button());
 			this->create_btnCreate = (gcnew System::Windows::Forms::Button());
@@ -141,6 +142,7 @@ namespace groupOrg {
 			this->ClientSize = System::Drawing::Size(482, 353);
 			this->Controls->Add(this->panel1);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"CreationForm";
 			this->Text = L"CreationForm";
 			this->panel1->ResumeLayout(false);

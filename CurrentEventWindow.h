@@ -62,34 +62,24 @@ namespace groupOrg {
 	private: System::Windows::Forms::Label^ currentEventWindow_eventNameLabel;
 	protected:
 
-	private: bool checkIsCompleted(String^ complatedDuty) {
-		MySqlCommand^ cmd = gcnew MySqlCommand("SELECT is_complited FROM `groupOrg`.`idevent_idmember_duty` WHERE	`duty` = '" + complatedDuty + "'", conDatabase);
-		try
+	private: bool checkIsCompleted(String^ Status) {
+		/*MySqlCommand^ cmd = gcnew MySqlCommand("SELECT is_complited FROM `groupOrg`.`idevent_idmember_duty` WHERE	`duty` = '" + complatedDuty + "'", conDatabase);
+		MySqlDataReader^ readStatus = cmd->ExecuteReader();
+		while (readStatus->Read())
 		{
-			conDatabase->Open();
-			MySqlDataReader^ readStatus = cmd->ExecuteReader();
-			while (readStatus->Read())
-			{
-				String^ Status = readStatus->GetString(0);
-				if (Status == "Yes")
-				{
-					return true;
-				}
-				else if (Status == "No")
-				{
-					return false;
-				}
-			}
-		}
-		catch (Exception^ Ex)
+			String^ Status = readStatus->GetString(0);
+			
+		}*/
+
+		if (Status == "Yes")
 		{
-			MessageBox::Show(Ex->Message);
+			return false;
 		}
-		finally
+		else if (Status == "No")
 		{
-			conDatabase->Close();
+			return true;
 		}
-		
+			
 	}
 
 	private: System::Windows::Forms::Panel^ panel1;
@@ -111,6 +101,7 @@ namespace groupOrg {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(CurrentEventWindow::typeid));
 			this->eventsWindow_header = (gcnew System::Windows::Forms::Panel());
 			this->currentEventWindow_backToEventsBtn = (gcnew System::Windows::Forms::Button());
 			this->currentEventWindow_createDutyBtn = (gcnew System::Windows::Forms::Button());
@@ -212,6 +203,7 @@ namespace groupOrg {
 			this->Controls->Add(this->currentEventWindow_panelForDuties);
 			this->Controls->Add(this->panel1);
 			this->Controls->Add(this->eventsWindow_header);
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"CurrentEventWindow";
 			this->Text = L"CurrentEventWindow";
 			this->Shown += gcnew System::EventHandler(this, &CurrentEventWindow::CurrentEventWindow_Shown);
@@ -231,13 +223,15 @@ namespace groupOrg {
 	private: Label^ labelForDuty;
 
 	private: void updateDuties() {
-		String^ cmd = "SELECT `members`.`MemberID`, `members`.`FirstName`, `idevent_idmember_duty`.`duty` FROM `grouporg`.`members` JOIN `grouporg`.`idevent_idmember_duty` ON `members`.`MemberID` = `idevent_idmember_duty`.`idMember` WHERE `idEvent` = " + eventId;
+		String^ cmd = "SELECT `members`.`MemberID`, `members`.`FirstName`, `idevent_idmember_duty`.`duty`, `idevent_idmember_duty`.`is_complited` FROM `grouporg`.`members` JOIN `grouporg`.`idevent_idmember_duty` ON `members`.`MemberID` = `idevent_idmember_duty`.`idMember` WHERE `idEvent` = " + eventId;
+		//String^ cmdForStatus
 		MySqlCommand^ cmdDataBase = gcnew MySqlCommand(cmd, conDatabase);
 		MySqlDataReader^ myReader = cmdDataBase->ExecuteReader();
 		while (myReader->Read()) {
 			panelForDuty = gcnew Panel();
 			panelForDuty->Size = System::Drawing::Size(982, 20);
 			panelForDuty->Dock = System::Windows::Forms::DockStyle::Top;
+			//panelForDuty->Enabled = checkIsCompleted(myReader->GetString(3));
 
 			labelForDuty = gcnew Label();
 			labelForDuty->Text = myReader->GetString(1) + " - " + myReader->GetString(2);
@@ -245,6 +239,7 @@ namespace groupOrg {
 				static_cast<System::Byte>(0)));
 			labelForDuty->Location = System::Drawing::Point(3, 3);
 			labelForDuty->AutoSize = true;
+			labelForDuty->Enabled = checkIsCompleted(myReader->GetString(3));
 
 			Button^ editDutyBtn = gcnew Button();
 			editDutyBtn->Text = "Edytuj";
@@ -253,6 +248,7 @@ namespace groupOrg {
 			editDutyBtn->Location = System::Drawing::Point(570, 0);
 			editDutyBtn->FlatAppearance->BorderSize = 0;
 			editDutyBtn->Tag = myReader->GetString(2);
+			editDutyBtn->Enabled = checkIsCompleted(myReader->GetString(3));
 			editDutyBtn->Click += gcnew System::EventHandler(this, &CurrentEventWindow::editDutyBtn_Click);
 
 
@@ -266,7 +262,7 @@ namespace groupOrg {
 			deleteDutyBtn->Click += gcnew System::EventHandler(this, &CurrentEventWindow::deleteDutyBtn_Click);
 
 			Button^ completeDutyBtn = gcnew Button();
-			completeDutyBtn->Text = "Wykonane";
+			completeDutyBtn->Text = checkIsCompleted(myReader->GetString(3)) ? "Wykonane" : "Cofnij";
 			completeDutyBtn->Font = gcnew System::Drawing::Font(completeDutyBtn->Font->FontFamily, 7);
 			completeDutyBtn->Size = System::Drawing::Size(75, 20);
 			completeDutyBtn->Location = System::Drawing::Point(490, 0);
@@ -303,6 +299,7 @@ namespace groupOrg {
 		{
 			conDatabase->Close();
 		}
+
 
 	
 	}
@@ -392,25 +389,82 @@ namespace groupOrg {
 
 	
 	private: System::Void completeDutyBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		
 		Button^ btn = (Button^)sender;
-		Panel^ panel = (Panel^)btn->Parent;
 		String^ complatedDuty = btn->Tag->ToString();
+		MySqlCommand^ cmd = gcnew MySqlCommand("SELECT is_complited FROM `groupOrg`.`idevent_idmember_duty` WHERE	`duty` = '" + complatedDuty + "'", conDatabase);
+		conDatabase->Open();
 
-		if (checkIsCompleted(complatedDuty))
+		MySqlDataReader^ readStatus = cmd->ExecuteReader();
+		String^ Status;
+		while (readStatus->Read())
 		{
-			panel->BackColor = Color::Red;
+			 Status = readStatus->GetString(0);
 			
 		}
-		else
+		conDatabase->Close();
+		
+		if (Status == "No")
 		{
-			panel->BackColor = Color::Blue;
+			String^ cmd = "UPDATE `grouporg`.`idevent_idmember_duty` SET `is_complited` = 'Yes' WHERE `duty` = '" + complatedDuty + "';";
+			MySqlCommand^ cmdDataBase = gcnew MySqlCommand(cmd, conDatabase);
+			//MySqlDataReader^ myReader;
+			try
+			{
+				conDatabase->Open();
+				int rowsAffected = cmdDataBase->ExecuteNonQuery();
+
+				if (rowsAffected > 0)
+				{
+					//MessageBox::Show("Usunieto obowiazek");
+					currentEventWindow_panelForDuties->Controls->Clear();
+					updateDuties();
+					
+
+				}
+			}
+			catch (Exception^ ex)
+			{
+				MessageBox::Show(ex->Message);
+			}
+			finally
+			{
+				conDatabase->Close();
+			}
 
 		}
+		else if (Status == "Yes")
+		{
+			String^ cmd = "UPDATE `grouporg`.`idevent_idmember_duty` SET `is_complited` = 'No' WHERE `duty` = '" + complatedDuty + "';";
+			MySqlCommand^ cmdDataBase = gcnew MySqlCommand(cmd, conDatabase);
+			//MySqlDataReader^ myReader;
+			try
+			{
+				conDatabase->Open();
+				int rowsAffected = cmdDataBase->ExecuteNonQuery();
+
+				if (rowsAffected > 0)
+				{
+					//MessageBox::Show("Usunieto obowiazek");
+					currentEventWindow_panelForDuties->Controls->Clear();
+					updateDuties();
+				}
+			}
+			catch (Exception^ ex)
+			{
+				MessageBox::Show(ex->Message);
+			}
+			finally
+			{
+				conDatabase->Close();
+			}
+		}
+		
 
 	}
 };
 }
-
+//  szczegoły edycja usun
 /*
 CREATE TABLE idEvent_idMember_duty(
 	idEvent int,
@@ -427,3 +481,4 @@ JOIN group_event ON events.id_event = group_event.ID_event
 JOIN groups ON group_event.ID_group = groups.id
 WHERE groups.id = 288;
 */
+

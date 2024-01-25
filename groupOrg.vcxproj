@@ -133,6 +133,7 @@
     <ClCompile Include="CurentMemberInfo.cpp" />
     <ClCompile Include="CurrentEventWindow.cpp" />
     <ClCompile Include="EditDutyWindow.cpp" />
+    <ClCompile Include="EditEventWindow.cpp" />
     <ClCompile Include="EventsWindow.cpp" />
     <ClCompile Include="GroupWindow.cpp" />
     <ClCompile Include="MyForm.cpp" />
@@ -163,6 +164,9 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="EditDutyWindow.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="EditEventWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="EventsWindow.h">
@@ -203,6 +207,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EditDutyWindow.resx">
       <DependentUpon>EditDutyWindow.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditEventWindow.resx">
+      <DependentUpon>EditEventWindow.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EventsWindow.resx">
       <DependentUpon>EventsWindow.h</DependentUpon>

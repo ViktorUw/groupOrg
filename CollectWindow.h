@@ -71,6 +71,7 @@ namespace groupOrg {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(CollectWindow::typeid));
 			this->eventsWindow_header = (gcnew System::Windows::Forms::Panel());
 			this->collectWIndow_back_to_group = (gcnew System::Windows::Forms::Button());
 			this->CollectWindow_btnCreateCollection = (gcnew System::Windows::Forms::Button());
@@ -94,6 +95,7 @@ namespace groupOrg {
 			this->eventsWindow_header->Name = L"eventsWindow_header";
 			this->eventsWindow_header->Size = System::Drawing::Size(982, 100);
 			this->eventsWindow_header->TabIndex = 2;
+			this->eventsWindow_header->DoubleClick += gcnew System::EventHandler(this, &CollectWindow::eventsWindow_header_DoubleClick);
 			// 
 			// collectWIndow_back_to_group
 			// 
@@ -172,6 +174,7 @@ namespace groupOrg {
 			this->Controls->Add(this->collectWindow_panelForCollects);
 			this->Controls->Add(this->panel1);
 			this->Controls->Add(this->eventsWindow_header);
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"CollectWindow";
 			this->Text = L"CollectWindow";
 			this->Shown += gcnew System::EventHandler(this, &CollectWindow::CollectWindow_Shown);
@@ -289,6 +292,9 @@ private: System::Void CollectWindow_btnCreateCollection_Click(System::Object^ se
 	CreateCollection^ createCollect = gcnew CreateCollection(this, GroupID);
 	this->Hide();
 	createCollect->ShowDialog();
+}
+private: System::Void eventsWindow_header_DoubleClick(System::Object^ sender, System::EventArgs^ e) {
+	this->Close();
 }
 };
 }

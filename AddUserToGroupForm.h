@@ -134,6 +134,7 @@ namespace groupOrg {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(AddUserToGroupForm::typeid));
 			this->addUserForm_Label = (gcnew System::Windows::Forms::Label());
 			this->addUserForm_panelForName = (gcnew System::Windows::Forms::Panel());
 			this->panel10 = (gcnew System::Windows::Forms::Panel());
@@ -643,6 +644,7 @@ namespace groupOrg {
 			this->Controls->Add(this->panel7);
 			this->Controls->Add(this->addUserForm_Label);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"AddUserToGroupForm";
 			this->Text = L"AddUserToGroupForm";
 			this->addUserForm_panelForName->ResumeLayout(false);

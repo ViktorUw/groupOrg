@@ -72,6 +72,7 @@ namespace groupOrg {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
 			this->mainWindow_header = (gcnew System::Windows::Forms::Panel());
 			this->main_btnCreate = (gcnew System::Windows::Forms::Button());
 			this->mainWindow_headerLable = (gcnew System::Windows::Forms::Label());
@@ -134,6 +135,7 @@ namespace groupOrg {
 			this->ClientSize = System::Drawing::Size(982, 753);
 			this->Controls->Add(this->panel2);
 			this->Controls->Add(this->mainWindow_header);
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"MyForm";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"Group Organizer";

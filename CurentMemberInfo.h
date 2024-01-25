@@ -158,6 +158,7 @@ namespace groupOrg {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(CurentMemberInfo::typeid));
 			this->panel7 = (gcnew System::Windows::Forms::Panel());
 			this->panel20 = (gcnew System::Windows::Forms::Panel());
 			this->panel21 = (gcnew System::Windows::Forms::Panel());
@@ -691,6 +692,7 @@ namespace groupOrg {
 			this->ClientSize = System::Drawing::Size(757, 544);
 			this->Controls->Add(this->panel7);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"CurentMemberInfo";
 			this->Text = L"CurentMemberInfo";
 			this->Shown += gcnew System::EventHandler(this, &CurentMemberInfo::CurentMemberInfo_Shown);
