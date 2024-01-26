@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Час створення: Січ 26 2024 р., 01:07
+-- Час створення: Січ 26 2024 р., 01:30
 -- Версія сервера: 10.4.27-MariaDB
 -- Версія PHP: 8.2.0
 
@@ -48,13 +48,6 @@ CREATE TABLE `events` (
   `additional_information` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Дамп даних таблиці `events`
---
-
-INSERT INTO `events` (`id_event`, `event_name`, `end_date`, `id_group`, `additional_information`) VALUES
-(354, 'Event 1', '2024-01-31', 312, 'O godzinie 10:00 we Wrocławiu');
-
 -- --------------------------------------------------------
 
 --
@@ -65,13 +58,6 @@ CREATE TABLE `groups` (
   `id` int(11) NOT NULL,
   `groupName` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Дамп даних таблиці `groups`
---
-
-INSERT INTO `groups` (`id`, `groupName`) VALUES
-(312, 'Grupa 1');
 
 -- --------------------------------------------------------
 
@@ -85,15 +71,6 @@ CREATE TABLE `idevent_idmember_duty` (
   `duty` varchar(255) DEFAULT NULL,
   `is_complited` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Дамп даних таблиці `idevent_idmember_duty`
---
-
-INSERT INTO `idevent_idmember_duty` (`idEvent`, `idMember`, `duty`, `is_complited`) VALUES
-(354, 180, 'Obowiązek dla pierwszego usera ', 'No'),
-(354, 181, 'Obowiązek dla usera 100', 'Yes'),
-(354, 181, 'Obowiązek dla usera 2', 'No');
 
 -- --------------------------------------------------------
 
@@ -112,15 +89,6 @@ CREATE TABLE `members` (
   `PhoneNumber` varchar(15) DEFAULT NULL,
   `JoinDate` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Дамп даних таблиці `members`
---
-
-INSERT INTO `members` (`MemberID`, `GroupID`, `FirstName`, `LastName`, `Email`, `BirthDate`, `Gender`, `PhoneNumber`, `JoinDate`) VALUES
-(180, 312, 'User', '1', 'user1@gmail.com', '2024-01-25', 'Mezczyzna', '123121312', '2024-01-25'),
-(181, 312, 'User', '2', 'user2@gmail.com', '2024-01-31', 'Mezczyzna', '321321321', '2024-01-25'),
-(182, 312, 'User', '100', 'user100@gmail.com', '2024-01-31', 'Mezczyzna', '123123123', '2024-01-25');
 
 --
 -- Індекси збережених таблиць
