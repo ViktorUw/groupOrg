@@ -32,6 +32,7 @@ namespace groupOrg {
 			GroupID = cur_groupID;
 			this->GroupWindow_headerLabel->Text = cur_groupName; // groupName
 			this->StartPosition = FormStartPosition::CenterScreen;
+			this->cur_groupName = cur_groupName;
 		}
 
 	protected:
@@ -57,6 +58,7 @@ namespace groupOrg {
 
 	private: System::Windows::Forms::Panel^ GroupWindow_panelForGroups;
 	private: String^ GroupID;
+	private: String^ cur_groupName;
 	private: System::Windows::Forms::Button^ groupWindow_headerAddUserBtn;
 	private: System::Windows::Forms::Panel^ GroupWindow_header;
 	private: System::Windows::Forms::Label^ GroupWindow_headerLabel;
@@ -387,7 +389,7 @@ namespace groupOrg {
 	}
 
 private: System::Void groupWindow_eventsBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-	EventsWindow^ eventsWindow = gcnew EventsWindow(this, GroupID);
+	EventsWindow^ eventsWindow = gcnew EventsWindow(this, GroupID, cur_groupName);
 	this->Hide();
 	eventsWindow->ShowDialog();
 }

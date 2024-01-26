@@ -215,11 +215,11 @@ namespace groupOrg {
 			this->editEventWindow_labelForEventName->AutoSize = true;
 			this->editEventWindow_labelForEventName->Font = (gcnew System::Drawing::Font(L"Elephant", 22.2F, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->editEventWindow_labelForEventName->Location = System::Drawing::Point(167, 20);
+			this->editEventWindow_labelForEventName->Location = System::Drawing::Point(197, 21);
 			this->editEventWindow_labelForEventName->Name = L"editEventWindow_labelForEventName";
-			this->editEventWindow_labelForEventName->Size = System::Drawing::Size(382, 47);
+			this->editEventWindow_labelForEventName->Size = System::Drawing::Size(276, 47);
 			this->editEventWindow_labelForEventName->TabIndex = 0;
-			this->editEventWindow_labelForEventName->Text = L"Podaj nazwe eventu";
+			this->editEventWindow_labelForEventName->Text = L"Nazwa eventu";
 			// 
 			// EditEventWindow
 			// 

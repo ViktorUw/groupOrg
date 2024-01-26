@@ -20,13 +20,15 @@ namespace groupOrg {
 	public ref class EventsWindow : public System::Windows::Forms::Form
 	{
 	public:
-		EventsWindow(Form^ okno, String^ GroupID)
+		EventsWindow(Form^ okno, String^ GroupID, String^ cur_groupName)
 		{
 			InitializeComponent();
 
 			this->StartPosition = FormStartPosition::CenterScreen;
 			this->okno = okno;
 			this->GroupID = GroupID;
+			this->eventsWindow_headerLable->Text = cur_groupName;
+
 			
 		}
 
@@ -47,6 +49,7 @@ namespace groupOrg {
 		   
 	private: String^ GroupID;
 	private: Form^ okno;
+	private: String^ cur_groupName;
 	private: System::Windows::Forms::Panel^ eventsWindow_header;
 	private: System::Windows::Forms::Button^ eventsWindow_btnCreateEvent;
 	protected:

@@ -229,7 +229,7 @@ namespace groupOrg {
 		MySqlDataReader^ myReader = cmdDataBase->ExecuteReader();
 		while (myReader->Read()) {
 			panelForDuty = gcnew Panel();
-			panelForDuty->Size = System::Drawing::Size(982, 20);
+			panelForDuty->Size = System::Drawing::Size(730, 20);
 			panelForDuty->Dock = System::Windows::Forms::DockStyle::Top;
 			//panelForDuty->Enabled = checkIsCompleted(myReader->GetString(3));
 
